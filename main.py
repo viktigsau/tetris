@@ -23,20 +23,32 @@ def add_tetromino(board):
     return (positions, center)
 
 def update_board(board, active_tetronimo):
-    if not active_tetronimo:
+    if active_tetronimo == None:
         return board, None
     
     new_board = deepcopy(board)
-    for i, (x, y) in enumerate(active_tetronimo[0]):
+    left = list(enumerate(active_tetronimo[0]))
+    while len(left) != 0:
+        x = left[0][1][0]
+        y = left[0][1][1]
+        i = left[0][0]
+
+        if (x, y+1) in active_tetronimo[0]:
+            left.append(left.pop(0))
+            continue
+
         if y != size[1]-1 and board[x][y+1] == None:
             new_board[x][y+1] = board[x][y]
             new_board[x][y] = None
             active_tetronimo[0][i] = (x, y+1)
+            left.pop(0)
             continue
+
         new_board = board
         active_tetronimo = None
         break
 
+    print("1")
     return new_board, active_tetronimo
 
 
@@ -67,6 +79,7 @@ while active:
     window.fill((50, 75, 0))
 
     board, active_tetronimo = update_board(board, active_tetronimo)
+    print(f"{active_tetronimo}\n" if active_tetronimo else "", end="")
 
     for x in range(size[0]):
         for y in range(size[1]):
