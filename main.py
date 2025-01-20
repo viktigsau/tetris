@@ -1,3 +1,3 @@
-#!venv/bin/python3
+#!.venv/bin/python3
 
 print("Hello, World!")
