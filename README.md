@@ -2,9 +2,9 @@
 
 i was bored so i made tetris
 
-# Note
+## Note
 
-it's still under development watch the progrss live  on [twitch](https://twitch.tv/viktig_sau)
+it's still under development, watch the progrss live  on [twitch](https://twitch.tv/viktig_sau)
 
 ## How to run?
 
