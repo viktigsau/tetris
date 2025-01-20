@@ -3,10 +3,8 @@ import pygame
 from speed import thread
 import time
 import random
+from copy import deepcopy
 
-
-def update_board(board, active_tetronimo):
-    ...
 
 def add_tetromino(board):
     tetrominos = [
@@ -23,6 +21,24 @@ def add_tetromino(board):
         board[x][y] = tetromino[2]
 
     return (positions, center)
+
+def update_board(board, active_tetronimo):
+    if not active_tetronimo:
+        return board, None
+    
+    new_board = deepcopy(board)
+    for i, (x, y) in enumerate(active_tetronimo[0]):
+        if y != size[1]-1 and board[x][y+1] == None:
+            new_board[x][y+1] = board[x][y]
+            new_board[x][y] = None
+            active_tetronimo[0][i] = (x, y+1)
+            continue
+        new_board = board
+        active_tetronimo = None
+        break
+
+    return new_board, active_tetronimo
+
 
 window_size = (540, 960)
 size = (12, 22)
@@ -50,7 +66,7 @@ while active:
     
     window.fill((50, 75, 0))
 
-    #board = update_board(board)
+    board, active_tetronimo = update_board(board, active_tetronimo)
 
     for x in range(size[0]):
         for y in range(size[1]):
@@ -66,3 +82,4 @@ while active:
     pygame.display.flip()
 
     time.sleep(0.1)
+    print(f"{active_tetronimo}\n" if active_tetronimo else "", end="")
