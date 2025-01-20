@@ -6,22 +6,24 @@ import time
 
 def update_board(board):
     def callback(colum: list):
-        for i, item in enumerate(colum.__reversed__()):
-            if i != 0 and colum[-(i+1)] == None:
-                colum[-(i+1)] = item
-                colum[-i] = None
+        colum = list(reversed(colum))
+        for i, item in enumerate(colum):
+            if colum[i-1] == None and item != (100, 100, 100):
+                colum[i-1] = item
+                colum[i] = None
         
-        return colum
+        return list(reversed(colum))
     
     return thread(board, callback, use_threads=False)
 
 window_size = (540, 960)
 size = (12, 22)
-sqere_size = (window_size[0]/size[0], window_size[1]/size[1])
+sqere_size = (window_size[0] / size[0], window_size[1] / size[1])
 
 board = [
     [(100, 100, 100) if y == size[1]-1 or x == 0 or x == size[0]-1 else None for y in range(size[1])] for x in range(size[0])
 ]
+
 window = pygame.display.set_mode(window_size)
 
 board[9][10] = (0, 255, 0)
@@ -39,9 +41,9 @@ while active:
         if event.type == pygame.QUIT:
             active = False
     
-    window.fill((0, 0, 0))
+    window.fill((50, 75, 0))
 
-    #board = update_board(board)
+    board = update_board(board)
 
     for x in range(size[0]):
         for y in range(size[1]):
