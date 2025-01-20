@@ -8,4 +8,5 @@ it's still under development, watch the progrss live  on [twitch](https://twitch
 
 ## How to run?
 
-just run main.py using the included interperter
+just run main.py
+remember to install dependensies
