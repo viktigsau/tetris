@@ -5,26 +5,24 @@ import time
 import random
 
 
-def update_board(board):
-    def callback(colum: list):
-        colum = list(reversed(colum))
-        for i, item in enumerate(colum):
-            if colum[i-1] == None and item != (100, 100, 100):
-                colum[i-1] = item
-                colum[i] = None
-        
-        return list(reversed(colum))
-    
-    return thread(board, callback)
+def update_board(board, active_tetronimo):
+    ...
 
 def add_tetromino(board):
     tetrominos = [
-        ([(0, 0), (0, 1), (0, 2), (1, 1)], (0, 1))
+        ([(0, 0), (1, 0), (2, 0), (1, 1)], (1, 0), (0, 255, 0))
     ]
 
     tetromino = random.choice(tetrominos)
 
+    positions = [(x+4, y) for x, y in tetromino[0]]
 
+    center = tetromino[1]
+
+    for x, y in positions:
+        board[x][y] = tetromino[2]
+
+    return (positions, center)
 
 window_size = (540, 960)
 size = (12, 22)
@@ -40,8 +38,6 @@ active_tetronimo = None
 
 active = True
 while active:
-    print("tick")
-
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             active = False
@@ -54,7 +50,7 @@ while active:
     
     window.fill((50, 75, 0))
 
-    board = update_board(board)
+    #board = update_board(board)
 
     for x in range(size[0]):
         for y in range(size[1]):
@@ -69,4 +65,4 @@ while active:
 
     pygame.display.flip()
 
-    time.sleep(1)
+    time.sleep(0.1)
