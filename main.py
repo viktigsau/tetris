@@ -2,6 +2,7 @@
 import pygame
 from speed import thread
 import time
+import random
 
 
 def update_board(board):
@@ -14,7 +15,16 @@ def update_board(board):
         
         return list(reversed(colum))
     
-    return thread(board, callback, use_threads=False)
+    return thread(board, callback)
+
+def add_tetromino(board):
+    tetrominos = [
+        ([(0, 0), (0, 1), (0, 2), (1, 1)], (0, 1))
+    ]
+
+    tetromino = random.choice(tetrominos)
+
+
 
 window_size = (540, 960)
 size = (12, 22)
@@ -26,20 +36,21 @@ board = [
 
 window = pygame.display.set_mode(window_size)
 
-board[9][10] = (0, 255, 0)
-board[9][9] = (255, 255, 0)
-board[9][7] = (255, 0, 0)
-board[9][1] = (0, 255, 255)
-board[9][0] = (0, 0, 255)
+active_tetronimo = None
 
 active = True
-
 while active:
     print("tick")
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             active = False
+            continue
+
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE and not active_tetronimo:
+                active_tetronimo = add_tetromino(board)
+            continue
     
     window.fill((50, 75, 0))
 
